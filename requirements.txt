@@ -1,0 +1,4 @@
+fpdf==1.7.2
+Kivy==2.1.0
+kivymd==0.104.2
+requests==2.27.1

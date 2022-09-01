@@ -1,0 +1,107 @@
+MainScreen:
+
+<MainScreen>:
+
+    BoxLayout:
+        #pos_hint: {"x": 100, "y": 200}
+        canvas:
+            Color:
+                rgb: 1, 1, 0
+        Label:
+            text: "1"
+
+        #Image:
+        #    source: "background.png"
+        #    #text: "111"
+        #    #pos_hint: {"x": 100, "y": 100}
+        #    #size_hint: 1, .1
+        #    allow_stretch: True
+        #    keep_ratio: False
+    BoxLayout:
+        pos_hint: {"x": 100, "y": 0.5}
+        canvas:
+            Color:
+                rgb: 1, 1, 0
+        orientation: "vertical"
+        Label:
+            text: "2"
+        #pos_hint: {"x": 0, "y": .4}
+        #size_hint: 1, .1
+        #Image:
+        #    source: "logo.png"
+        #    #allow_stretch: True
+        #    keep_ratio: False
+        #    size_hint: 1, .2
+        #ScrollView:
+        #    do_scroll_x: False
+        #    do_scroll_y: True
+#
+         #   Label:
+         #       size_hint_y: None
+         #       height: self.texture_size[1]
+         #       text_size: self.width, None
+         #       color: 255, 255, 180, 1
+         #       padding: 10, 10
+         #       text: "1"
+#
+
+    BoxLayout:
+        background_normal: "red"
+        Label:
+            text: "3"
+        ##orientation: "vertical"
+        #pos: 0, 0
+        #size_hint: 1,
+        #BoxLayout:
+        #    spacing: "20dp"
+        #    padding: "20dp", "10dp"
+        #    Button:
+        #        pos_hint: {"x": .08, "y": 1}
+        #        background_normal: "pocket.png"
+        #        size_hint: .15, None
+        #        #height: 80
+        #        #text: "Packets"
+        #        on_press: root.btn1()
+        #    Button:
+        #        #pos: "500dp", "10dp"
+        #        background_normal: "loader.png"
+        #        pos_hint: {"x": .31, "y": 1}
+        #        size_hint: .15, None
+        #        #text: "Skladetskiy"
+        #        #pos_hint: {"x": 25}
+        #    Button:
+        #        background_normal: "pocket.png"
+        #        size_hint: .15, None
+        #        #text: "Zakazu"
+        #        pos_hint: {"x": .54, "y": 1}
+        #    Button:
+        #        background_normal: "loader.png"
+        #        size_hint: .15, None
+        #        #text: "4to to tam"
+        #        pos_hint: {"x": .77, "y"}
+    #FloatLayout:
+    #    size_hint: 1, .1
+    #    Label:
+    #        pos_hint: {"x": .08, "y": .01}
+    #        size_hint: .15, None
+    #        text: "Paket"
+    #        color: 255, 255, 200, 1
+    #        font_size: 23
+    #    Label:
+    #        pos_hint: {"x": .31, "y": .01}
+    #        size_hint: .15, None
+    #        text: "Skladetskiy"
+    #        color: 255, 255, 200, 1
+    #        font_size: 23
+    #    Label:
+    #        pos_hint: {"x": .54, "y": .01}
+    #        size_hint: .15, None
+    #        text: "Zakazu"
+    #        color: 255, 255, 200, 1
+    #        font_size: 23
+    #    Label:
+    #        pos_hint: {"x": .77, "y": .01}
+    #        size_hint: .15, None
+    #        text: "Zakazu"
+    #        color: 255, 255, 200, 1
+    #        font_size: 23

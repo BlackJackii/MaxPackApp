@@ -1,0 +1,1206 @@
+ScreenManager:
+    MainScreen:
+        FirstWindowDialog:
+    SecondScreen:
+        ExpPanel:
+    ThirdScreen:
+        ThirdWindowDialog:
+    FourthScreen:
+    AdminScreen:
+        TabForAdmin:
+
+<ExpPanel>:
+    orientation: "vertical"
+    size_hint: 1, None
+    height: self.minimum_height
+    adaptive_height: True
+    BoxLayout:
+        padding: 0, 20
+        size_hint_y: None
+        height: self.minimum_height
+
+    #Высота, ширина, дно, печать
+        Label:
+            id: exp_panel_size
+            size_hint: root.exp_label_size_hint
+            text: "Шир"
+            font_size: root.exp_label_font_size
+            color: 0, 0, 0, 1
+    #Формат, рукав, граматура
+        Label:
+            id: exp_panel_paper_spec
+            size_hint: root.exp_label_size_hint
+            text: "Выс"
+            font_size: root.exp_label_font_size
+            color: 0, 0, 0, 1
+    #Курсб наценка
+        Label:
+            id: exp_panel_exch
+            size_hint: root.exp_label_size_hint
+            text: "Дно"
+            font_size: root.exp_label_font_size
+            color: 0, 0, 0, 1
+    #Себестоим, цена, сумма
+        Label:
+            id: exp_panel_cost
+            size_hint: root.exp_label_size_hint
+            text: "Дно"
+            font_size: root.exp_label_font_size
+            color: 0, 0, 0, 1
+#Кнопа удаления заказа из списка заказов
+    BoxLayout:
+        size_hint_y: None
+        height: self.minimum_height
+        BoxLayout:
+            size_hint: 1, None
+            MDIconButton:
+                icon: "delete_icon.png"
+                on_press: app.root.get_screen("second").delete_record()
+    #Кнопа возвращения заказа в конструктор
+        BoxLayout:
+            size_hint: .25, None
+            height: self.minimum_height
+            MDFillRoundFlatButton:
+                id: return_to_button
+                size_hint: None, None
+                text: "Вернуть в конструктор"
+                text_color: root.md_button_color
+                font_size: 20
+                md_bg_color: 0.51, 0.7, 0.25, 1
+                on_press: app.root.get_screen("main").return_from_orders()
+                on_press: app.root.current = "main"
+    #Кнопа сохранения в PDF
+        BoxLayout:
+            size_hint: .25, None
+            height: self.minimum_height
+            MDFillRoundFlatButton:
+                size_hint: None, None
+                text: "Сохранить в PDF"
+                text_color: root.md_button_color
+                font_size: 20
+                md_bg_color: 0.51, 0.7, 0.25, 1
+                on_press: app.root.get_screen("second").save_to_file_btn()
+
+
+
+#Диалоговое окно при нажатии на кнопки сохранения
+<FirstWindowDialog>
+    orientation: "vertical"
+    spacing: "12dp"
+    size_hint_y: None
+
+    MDTextField:
+        id: text_input_dialog
+        text: ""
+        font_size: 28
+        color_mode: "custom"
+        line_color_focus: 0.51, 0.7, 0.25, 1
+        line_color_normal: "81b241"
+        multiline: False
+        normal_color: 0.51, 0.7, 0.25, 1
+        hint_text: "заполните поле"
+        #on_touch_down: if self.collide_point(*args[1].pos): self.text = ""
+
+#Диалоговое окно при редактировании базы продукции
+<ThirdWindowDialog>
+    orientation: "vertical"
+    spacing: "12dp"
+    size_hint_y: None
+
+    MDTextField:
+        id: text_input_dialog_password
+        text: ""
+        font_size: 28
+        color_mode: "custom"
+        line_color_focus: 0.51, 0.7, 0.25, 1
+        line_color_normal: "81b241"
+        multiline: False
+        normal_color: 0.51, 0.7, 0.25, 1
+        hint_text: "заполните поле"
+        #on_touch_down: if self.collide_point(*args[1].pos): self.text = ""
+
+
+#Верхняя часть виджетов. Лого, курсы, погода, кнопы меню.
+<MainMenu>:
+
+    size_hint: 1, 0.25
+    BoxLayout:
+        orientation: "vertical"
+    #Лого и виджеты верх
+        BoxLayout:
+            size_hint: 1, 0.2
+            padding: 5
+
+        #Логотип
+            BoxLayout:
+                Image:
+                    source: "logo3.png"
+                    #allow_stretch: True
+                    keep_ratio: False
+        #Курсы валют
+            BoxLayout:
+                orientation: "vertical"
+                Label:
+                    text: "[b][i][u]Курсы валют НБУ[/u][/i][/b] \n"
+                    font_size: root.weather_font_size
+                    color: "black"
+                    markup: True
+                Label:
+                    text: root.exchange_rate()
+                    font_size: root.weather_font_size
+                    color: "black"
+        #Погода
+            BoxLayout:
+                orientation: "vertical"
+            #Город
+                Label:
+                    id: lbl_weather_city
+                    size_hint: root.weather_size_hint
+                    text: str(root.show_weather(root.get_weather_data("Хмельницкий"))[0])
+                    font_size: root.weather_font_size
+                    color: root.font_color
+            #Температура
+                Label:
+                    id: lbl_weather_temp
+                    size_hint: root.weather_size_hint
+                    text: str(root.show_weather(root.get_weather_data("Хмельницкий"))[1])
+                    font_size: root.weather_font_size
+                    color: root.font_color
+            #Состояние
+                Label:
+                    id: lbl_weather_state
+                    size_hint: root.weather_size_hint
+                    text: str(root.show_weather(root.get_weather_data("Хмельницкий"))[3])
+                    font_size: root.weather_font_size
+                    color: root.font_color
+            #Дата
+                Label:
+                    id: lbl_weather_date
+                    size_hint: root.weather_size_hint
+                    text: str(root.show_weather(root.get_weather_data("Хмельницкий"))[4])
+                    font_size: root.weather_font_size
+                    color: root.font_color
+            #Поле ввода города
+                MDTextFieldRound:
+                    id: text_input_weather
+                    text: "Введите город"
+                    normal_color: root.entry_box_color
+                    size_hint: root.weather_size_hint
+                    font_size: root.weather_font_size
+                    halign: "center"
+                    multiline: False
+                    on_touch_down: if self.collide_point(*args[1].pos): self.text = ""
+                    on_text_validate: root.weather_input()
+                    on_focus: root.weather_input()
+
+    #Блок с кнопами
+        BoxLayout:
+            size_hint: 1, 0.09
+            padding: 30, 10
+            Button:
+                background_normal: "btn3.png"
+                text: "Конструктор"
+                color: "black"
+                font_size: root.menu_button_font_size
+                on_press: app.root.current = "main"
+            Button:
+                background_normal: "btn3.png"
+                text: "Заказы"
+                color: "black"
+                font_size: root.menu_button_font_size
+                on_press: app.root.current = "second"
+                on_press: app.root.get_screen("second").panel_start()
+            Button:
+                background_normal: "btn3.png"
+                text: "Склад пакетов"
+                color: "black"
+                font_size: root.menu_button_font_size
+                on_press: app.root.current = "third"
+                on_press: app.root.get_screen("third").create_data_table()
+
+            Button:
+                background_normal: "btn3.png"
+                text: "Склад сырья"
+                color: "black"
+                font_size: root.menu_button_font_size
+                on_press: app.root.current = "fourth"
+                on_press: app.root.get_screen("fourth").create_data_table()
+
+<MainScreen>:
+    Image:
+        source: "background.png"
+        allow_stretch: True
+        keep_ratio: False
+    BoxLayout:
+        orientation: "vertical"
+        MainMenu:
+
+
+
+    #Рабочая область
+        BoxLayout:
+            padding: 0, 20
+
+        #Левая часть
+            BoxLayout:
+                orientation: "vertical"
+
+                Label:
+                    text: "[b][i][u]Конструктор[/u][/i][/b]"
+                    color: root.font_color
+                    font_size: root.font_size
+                    markup: True
+
+            #Ширина
+                BoxLayout:
+                    padding: root.workspace_padding
+                    size_hint: root.boxlayout_size_hint
+                    Label:
+                        text: root.lbl_text["width"][0]
+                        color: root.font_color
+                        font_size: root.font_size
+                    MDTextFieldRound:
+                        id: text_input_p_width
+                        text: root.lbl_text["width"][1]
+                        normal_color: root.entry_box_color
+                        size_hint: root.text_input_size
+                        font_size: root.font_size
+                        halign: "center"
+                        multiline: False
+                        on_touch_down: if self.collide_point(*args[1].pos): self.text = ""
+                        on_text_validate: root.refresh()
+                        on_focus: root.check_focus()
+                    Label:
+                        size_hint: root.properties_size
+                        text: root.lbl_text["width"][2]
+                        color: root.font_color
+                        font_size: root.properties_font_size
+
+            #Высота
+                BoxLayout:
+                    padding: root.workspace_padding
+                    size_hint: root.boxlayout_size_hint
+                    Label:
+                        text: root.lbl_text["height"][0]
+                        color: root.font_color
+                        font_size: root.font_size
+                    MDTextFieldRound:
+                        id: text_input_p_height
+                        text: root.lbl_text["height"][1]
+                        normal_color: root.entry_box_color
+                        size_hint: root.text_input_size
+                        font_size: root.font_size
+                        halign: "center"
+                        multiline: False
+                        on_touch_down: if self.collide_point(*args[1].pos): self.text = ""
+                        on_text_validate: root.refresh()
+                        on_focus: root.check_focus()
+                    Label:
+                        size_hint: root.properties_size
+                        text: root.lbl_text["height"][2]
+                        color: root.font_color
+                        font_size: root.properties_font_size
+
+            #Дно
+                BoxLayout:
+                    padding: root.workspace_padding
+                    size_hint: root.boxlayout_size_hint
+                    Label:
+                        text: root.lbl_text["bottom"][0]
+                        color: root.font_color
+                        font_size: root.font_size
+                    MDTextFieldRound:
+                        id: text_input_p_bottom
+                        text: root.lbl_text["bottom"][1]
+                        normal_color: root.entry_box_color
+                        size_hint: root.text_input_size
+                        font_size: root.font_size
+                        halign: "center"
+                        multiline: False
+                        on_touch_down: if self.collide_point(*args[1].pos): self.text = ""
+                        on_text_validate: root.refresh()
+                        on_focus: root.check_focus()
+                    Label:
+                        size_hint: root.properties_size
+                        text: root.lbl_text["bottom"][2]
+                        color: root.font_color
+                        font_size: root.properties_font_size
+
+            #Формат рулона
+                BoxLayout:
+                    padding: root.workspace_padding
+                    size_hint: root.boxlayout_size_hint
+                    Label:
+                        text: root.lbl_text["roll_format"][0]
+                        color: "black"
+                        font_size: root.font_size
+                    Label:
+                        id: text_input_roll_format1
+                        size_hint: root.text_input_size
+                        text: root.lbl_text["roll_format"][1]
+                        font_size: root.font_size
+                        color: root.font_color
+                    Label:
+                        size_hint: root.properties_size
+                        text: root.lbl_text["roll_format"][2]
+                        color: root.font_color
+                        font_size: root.properties_font_size
+
+            #Длина рукава
+                BoxLayout:
+                    padding: root.workspace_padding
+                    size_hint: root.boxlayout_size_hint
+                    Label:
+                        text: root.lbl_text["sleeve_length"][0]
+                        color: root.font_color
+                        font_size: root.font_size
+                    Label:
+                        id: text_input_sleeve_length
+                        size_hint: root.text_input_size
+                        text: root.lbl_text["sleeve_length"][1]
+                        font_size: root.font_size
+                        color: root.font_color
+                    Label:
+                        size_hint: root.properties_size
+                        text: root.lbl_text["sleeve_length"][2]
+                        color: root.font_color
+                        font_size: root.properties_font_size
+
+            #Квадратура
+                BoxLayout:
+                    padding: root.workspace_padding
+                    size_hint: root.boxlayout_size_hint
+                    Label:
+                        text: root.lbl_text["squaring"][0]
+                        font_size: root.font_size
+                        color: root.font_color
+                    Label:
+                        id: text_input_squaring
+                        text: root.lbl_text["squaring"][1]
+                        size_hint: root.text_input_size
+                        font_size: root.font_size
+                        color: root.font_color
+                    Label:
+                        size_hint: root.properties_size
+                        text: root.lbl_text["squaring"][2]
+                        color: root.font_color
+                        font_size: root.properties_font_size
+
+            #Первый слой
+                BoxLayout:
+                    padding: root.workspace_padding
+                    size_hint: root.boxlayout_size_hint
+                    Label:
+                        text: root.lbl_text["first_layer"][0]
+                        color: "black"
+                        font_size: root.font_size
+                    MDTextFieldRound:
+                        id: text_input_first_layer
+                        text: root.lbl_text["first_layer"][1]
+                        normal_color: root.entry_box_color
+                        size_hint: root.text_input_size
+                        font_size: root.font_size
+                        halign: "center"
+                        multiline: False
+                        on_touch_down: if self.collide_point(*args[1].pos): self.text = ""
+                        on_text_validate: root.refresh()
+                        on_focus: root.check_focus()
+                    Label:
+                        size_hint: root.properties_size
+                        text: root.lbl_text["first_layer"][2]
+                        color: root.font_color
+                        font_size: root.properties_font_size
+
+            #Второй слой
+                BoxLayout:
+                    padding: root.workspace_padding
+                    size_hint: root.boxlayout_size_hint
+                    Label:
+                        text: root.lbl_text["second_layer"][0]
+                        color: "black"
+                        font_size: root.font_size
+                    MDTextFieldRound:
+                        id: text_input_second_layer
+                        text: root.lbl_text["second_layer"][1]
+                        normal_color: root.entry_box_color
+                        size_hint: root.text_input_size
+                        font_size: root.font_size
+                        halign: "center"
+                        multiline: False
+                        on_touch_down: if self.collide_point(*args[1].pos): self.text = ""
+                        on_text_validate: root.refresh()
+                        on_focus: root.check_focus()
+                    Label:
+                        size_hint: root.properties_size
+                        text: root.lbl_text["second_layer"][2]
+                        color: root.font_color
+                        font_size: root.properties_font_size
+
+            #Третий слой
+                BoxLayout:
+                    padding: root.workspace_padding
+                    size_hint: root.boxlayout_size_hint
+                    Label:
+                        text: root.lbl_text["third_layer"][0]
+                        color: root.font_color
+                        font_size: root.font_size
+                    MDTextFieldRound:
+                        id: text_input_third_layer
+                        text: root.lbl_text["third_layer"][1]
+                        normal_color: root.entry_box_color
+                        size_hint: root.text_input_size
+                        font_size: root.font_size
+                        halign: "center"
+                        multiline: False
+                        on_touch_down: if self.collide_point(*args[1].pos): self.text = ""
+                        on_text_validate: root.refresh()
+                        on_focus: root.check_focus()
+                    Label:
+                        size_hint: root.properties_size
+                        text: root.lbl_text["third_layer"][2]
+                        color: root.font_color
+                        font_size: root.properties_font_size
+            #Ручка
+                BoxLayout:
+                    padding: root.workspace_padding
+                    size_hint: root.boxlayout_size_hint
+                    Label:
+                        text: root.lbl_text["handle"][0]
+                        color: root.font_color
+                        font_size: root.font_size
+                    MDTextFieldRound:
+                        id: text_input_handle
+                        text: root.lbl_text["handle"][1]
+                        normal_color: root.entry_box_color
+                        size_hint: root.text_input_size
+                        font_size: root.font_size
+                        halign: "center"
+                        multiline: False
+                        on_touch_down: if self.collide_point(*args[1].pos): self.text = ""
+                        on_text_validate: root.refresh()
+                        on_focus: root.check_focus()
+                    Label:
+                        size_hint: root.properties_size
+                        text: root.lbl_text["handle"][2]
+                        color: root.font_color
+                        font_size: root.properties_font_size
+
+            #Курсы валют
+                BoxLayout:
+                    orientation: "vertical"
+                    Label:
+                        text: "[b][i][u]Курсы валют[/u][/i][/b]"
+                        color: root.font_color
+                        font_size: root.font_size
+                        markup: True
+            #Доллар
+                BoxLayout:
+                    padding: root.workspace_padding
+                    Label:
+                        text: root.lbl_text["exchange_rate_usd"][0]
+                        color: root.font_color
+                        font_size: root.font_size
+                    MDTextFieldRound:
+                        id: text_input_exchange_rate_usd
+                        text: root.lbl_text["exchange_rate_usd"][1]
+                        normal_color: root.entry_box_color
+                        size_hint: root.text_input_size
+                        font_size: root.font_size
+                        halign: "center"
+                        multiline: False
+                        on_touch_down: if self.collide_point(*args[1].pos): self.text = ""
+                        on_text_validate: root.refresh()
+                        on_focus: root.check_focus()
+                    Label:
+                        size_hint: root.properties_size
+                        text: root.lbl_text["exchange_rate_usd"][2]
+                        color: root.font_color
+                        font_size: root.properties_font_size
+            #Евро
+                BoxLayout:
+                    padding: root.workspace_padding
+                    Label:
+                        text: root.lbl_text["exchange_rate_eur"][0]
+                        color: root.font_color
+                        font_size: root.font_size
+                    MDTextFieldRound:
+                        id: text_input_exchange_rate_eur
+                        text: root.lbl_text["exchange_rate_eur"][1]
+                        normal_color: root.entry_box_color
+                        size_hint: root.text_input_size
+                        font_size: root.font_size
+                        halign: "center"
+                        multiline: False
+                        on_touch_down: if self.collide_point(*args[1].pos): self.text = ""
+                        on_text_validate: root.refresh()
+                        on_focus: root.check_focus()
+                    Label:
+                        size_hint: root.properties_size
+                        text: root.lbl_text["exchange_rate_eur"][2]
+                        color: root.font_color
+                        font_size: root.properties_font_size
+
+        #Центральная часть
+            BoxLayout:
+                orientation: "vertical"
+                Label:
+                    text: "[b][i][u]Проклейка дна[/u][/i][/b]"
+                    color: root.font_color
+                    font_size: root.font_size
+                    markup: True
+
+            #Квадратура дна
+                BoxLayout:
+                    padding: root.workspace_padding
+                    Label:
+                        text: root.lbl_text["bottom_squaring"][0]
+                        color: root.font_color
+                        font_size: root.font_size
+                    Label:
+                        id: text_input_bottom_squaring
+                        size_hint: root.text_input_size
+                        text: root.lbl_text["bottom_squaring"][1]
+                        font_size: root.font_size
+                        color: root.font_color
+                        halign: "center"
+                    Label:
+                        size_hint: root.properties_size
+                        text: root.lbl_text["bottom_squaring"][2]
+                        color: root.font_color
+                        font_size: root.properties_font_size
+
+            #Граматура дна
+                BoxLayout:
+                    padding: root.workspace_padding
+                    Label:
+                        text: root.lbl_text["bottom_raw_gram"][0]
+                        color: root.font_color
+                        font_size: root.font_size
+                    MDTextFieldRound:
+                        id: text_input_bottom_raw_gram
+                        text: root.lbl_text["bottom_raw_gram"][1]
+                        normal_color: root.entry_box_color
+                        size_hint: root.text_input_size
+                        font_size: root.font_size
+                        halign: "center"
+                        multiline: False
+                        on_touch_down: if self.collide_point(*args[1].pos): self.text = ""
+                        on_text_validate: root.refresh()
+                        on_focus: root.check_focus()
+                    Label:
+                        size_hint: root.properties_size
+                        text: root.lbl_text["bottom_raw_gram"][2]
+                        color: root.font_color
+                        font_size: root.properties_font_size
+
+            #Вес дна
+                BoxLayout:
+                    padding: root.workspace_padding
+
+                    Label:
+                        text: root.lbl_text["bottom_weight"][0]
+                        color: root.font_color
+                        font_size: root.font_size
+                    Label:
+                        id: text_input_bottom_weight
+                        size_hint: root.text_input_size
+                        text: root.lbl_text["bottom_weight"][1]
+                        font_size: root.font_size
+                        color: root.font_color
+                        halign: "center"
+                    Label:
+                        size_hint: root.properties_size
+                        text: root.lbl_text["bottom_weight"][2]
+                        color: root.font_color
+                        font_size: root.properties_font_size
+
+            #Стоимость дна
+                BoxLayout:
+                    padding: root.workspace_padding
+                    Label:
+                        text: root.lbl_text["bottom_cost"][0]
+                        color: "black"
+                        font_size: root.font_size
+                    Label:
+                        id: text_input_bottom_cost
+                        size_hint: root.text_input_size
+                        text: root.lbl_text["bottom_cost"][1]
+                        font_size: root.font_size
+                        color: root.font_color
+                    Label:
+                        size_hint: root.properties_size
+                        text: root.lbl_text["bottom_cost"][2]
+                        color: root.font_color
+                        font_size: root.properties_font_size
+
+            #Стоимость сырья
+                BoxLayout:
+                    padding: root.workspace_padding
+                    Label:
+                        text: root.lbl_text["raw_paper_cost"][0]
+                        color: root.font_color
+                        font_size: root.font_size
+                        size_hint: .5, 1
+                    MDTextFieldRound:
+                        id: text_input_raw_paper_cost
+                        text: root.lbl_text["raw_paper_cost"][1]
+                        normal_color: root.entry_box_color
+                        size_hint: root.text_input_size
+                        font_size: root.font_size
+                        halign: "center"
+                        multiline: False
+                        on_touch_down: if self.collide_point(*args[1].pos): self.text = ""
+                        on_text_validate: root.refresh()
+                        on_focus: root.check_focus()
+                    Label:
+                        size_hint: 0.04, 1
+                    Spinner:
+                        id: change_currency
+                        size_hint: 0.2, 1
+                        text: "UAH"
+                        values: ["UAH", "USD", "EUR"]
+                        background_color: 0.51, 1, 0.25, 0.2
+                        on_text: root.change_currency_func()
+                        font_size: root.properties_font_size
+                        color: root.font_color#Стоимость сырья
+
+
+            #Вес первого слоя
+                BoxLayout:
+                    padding: root.workspace_padding
+                    Label:
+                        text: root.lbl_text["weight_first_layer"][0]
+                        font_size: root.font_size
+                        color: root.font_color
+                    Label:
+                        id: text_input_weight_first_layer
+                        text: root.lbl_text["weight_first_layer"][1]
+                        size_hint: root.text_input_size
+                        font_size: root.font_size
+                        color: root.font_color
+                    Label:
+                        size_hint: root.properties_size
+                        text: root.lbl_text["weight_first_layer"][2]
+                        color: root.font_color
+                        font_size: root.properties_font_size
+
+            #Вес второго слоя
+                BoxLayout:
+                    padding: root.workspace_padding
+
+                    Label:
+                        text: root.lbl_text["weight_second_layer"][0]
+                        font_size: root.font_size
+                        color: root.font_color
+                    Label:
+                        id: text_input_weight_second_layer
+                        text: root.lbl_text["weight_second_layer"][1]
+                        size_hint: root.text_input_size
+                        font_size: root.font_size
+                        color: root.font_color
+                    Label:
+                        size_hint: root.properties_size
+                        text: root.lbl_text["weight_second_layer"][2]
+                        color: root.font_color
+                        font_size: root.properties_font_size
+
+            #Вес третьего слоя
+                BoxLayout:
+                    padding: root.workspace_padding
+
+                    Label:
+                        text: root.lbl_text["weight_third_layer"][0]
+                        font_size: root.font_size
+                        color: root.font_color
+                    Label:
+                        id: text_input_weight_third_layer
+                        text: root.lbl_text["weight_third_layer"][1]
+                        size_hint: root.text_input_size
+                        font_size: root.font_size
+                        color: root.font_color
+                    Label:
+                        size_hint: root.properties_size
+                        text: root.lbl_text["weight_third_layer"][2]
+                        color: root.font_color
+                        font_size: root.properties_font_size
+
+            #Себестоимость первого слоя
+                BoxLayout:
+                    padding: root.workspace_padding
+                    Label:
+                        text: root.lbl_text["cost_first_layer_raw"][0]
+                        font_size: root.font_size
+                        color: root.font_color
+                    Label:
+                        id: text_input_cost_first_layer_raw
+                        text: root.lbl_text["cost_first_layer_raw"][1]
+                        size_hint: root.text_input_size
+                        font_size: root.font_size
+                        color: root.font_color
+                    Label:
+                        size_hint: root.properties_size
+                        text: root.lbl_text["cost_first_layer_raw"][2]
+                        color: root.font_color
+                        font_size: root.properties_font_size
+
+            #Себестоимость второго слоя
+                BoxLayout:
+                    padding: root.workspace_padding
+                    Label:
+                        text: root.lbl_text["cost_second_layer_raw"][0]
+                        font_size: root.font_size
+                        color: root.font_color
+                    Label:
+                        id: text_input_cost_second_layer_raw
+                        text: root.lbl_text["cost_second_layer_raw"][1]
+                        size_hint: root.text_input_size
+                        font_size: root.font_size
+                        color: root.font_color
+                    Label:
+                        size_hint: root.properties_size
+                        text: root.lbl_text["cost_second_layer_raw"][2]
+                        color: root.font_color
+                        font_size: root.properties_font_size
+
+            #Себестоимость третьего слоя
+                BoxLayout:
+                    padding: root.workspace_padding
+                    Label:
+                        text: root.lbl_text["cost_third_layer_raw"][0]
+                        font_size: root.font_size
+                        color: root.font_color
+                    Label:
+                        id: text_input_cost_third_layer_raw
+                        text: root.lbl_text["cost_third_layer_raw"][1]
+                        size_hint: root.text_input_size
+                        font_size: root.font_size
+                        color: root.font_color
+                    Label:
+                        size_hint: root.properties_size
+                        text: root.lbl_text["cost_third_layer_raw"][2]
+                        color: root.font_color
+                        font_size: root.properties_font_size
+
+
+
+        #Правая часть
+            BoxLayout:
+                orientation: "vertical"
+                Label:
+                    text: "[b][i][u]Расходы на печать[/u][/i][/b]"
+                    color: root.font_color
+                    font_size: root.font_size
+                    markup: True
+
+            #Процент запечатки
+                BoxLayout:
+                    padding: root.workspace_padding
+                    size_hint: root.boxlayout_size_hint
+                    Label:
+                        text: root.lbl_text["shading_percentages"][0]
+                        color: root.font_color
+                        font_size: root.font_size
+                    MDTextFieldRound:
+                        id: text_input_shading_percentages
+                        text: root.lbl_text["shading_percentages"][1]
+                        normal_color: root.entry_box_color
+                        size_hint: root.text_input_size
+                        font_size: root.font_size
+                        halign: "center"
+                        multiline: False
+                        on_touch_down: if self.collide_point(*args[1].pos): self.text = ""
+                        on_text_validate: root.refresh()
+                        on_focus: root.check_focus()
+                    Label:
+                        size_hint: root.properties_size
+                        text: root.lbl_text["shading_percentages"][2]
+                        color: root.font_color
+                        font_size: root.properties_font_size
+
+            #Расход краски
+                BoxLayout:
+                    padding: root.workspace_padding
+                    size_hint: root.boxlayout_size_hint
+                    Label:
+                        text: root.lbl_text["paint_spend"][0]
+                        color: root.font_color
+                        font_size: root.font_size
+                    MDTextFieldRound:
+                        id: text_input_paint_spend
+                        text: root.lbl_text["paint_spend"][1]
+                        normal_color: root.entry_box_color
+                        size_hint: root.text_input_size
+                        font_size: root.font_size
+                        halign: "center"
+                        multiline: False
+                        on_touch_down: if self.collide_point(*args[1].pos): self.text = ""
+                        on_text_validate: root.refresh()
+                        on_focus: root.check_focus()
+                    Label:
+                        size_hint: root.properties_size
+                        text: root.lbl_text["paint_spend"][2]
+                        color: root.font_color
+                        font_size: root.properties_font_size
+
+            #Стоимость краски
+                BoxLayout:
+                    padding: root.workspace_padding
+                    size_hint: root.boxlayout_size_hint
+                    Label:
+                        text: root.lbl_text["paint_cost"][0]
+                        color: "black"
+                        font_size: root.font_size
+                    MDTextFieldRound:
+                        id: text_input_paint_cost
+                        text: root.lbl_text["paint_cost"][1]
+                        normal_color: root.entry_box_color
+                        size_hint: root.text_input_size
+                        font_size: root.font_size
+                        halign: "center"
+                        multiline: False
+                        on_touch_down: if self.collide_point(*args[1].pos): self.text = ""
+                        on_text_validate: root.refresh()
+                        on_focus: root.check_focus()
+                    Label:
+                        size_hint: root.properties_size
+                        text: root.lbl_text["paint_cost"][2]
+                        color: root.font_color
+                        font_size: root.properties_font_size
+
+
+            #Стоимость краски за гр
+                BoxLayout:
+                    padding: root.workspace_padding
+                    size_hint: root.boxlayout_size_hint
+                    Label:
+                        text: root.lbl_text["paint_cost_one_gram"][0]
+                        color: "black"
+                        font_size: root.font_size
+                    Label:
+                        id: text_input_paint_cost_one_gram
+                        size_hint: root.text_input_size
+                        text: root.lbl_text["paint_cost_one_gram"][1]
+                        font_size: root.font_size
+                        color: root.font_color
+                    Label:
+                        size_hint: root.properties_size
+                        text: root.lbl_text["paint_cost_one_gram"][2]
+                        color: root.font_color
+                        font_size: root.properties_font_size
+
+            #Цена печати печати 1 м2
+                BoxLayout:
+                    padding: root.workspace_padding
+                    size_hint: root.boxlayout_size_hint
+                    Label:
+                        text: root.lbl_text["painting_cost"][0]
+                        color: "black"
+                        font_size: root.font_size
+                    Label:
+                        id: text_input_painting_cost
+                        size_hint: root.text_input_size
+                        text: root.lbl_text["painting_cost"][1]
+                        font_size: root.font_size
+                        color: root.font_color
+                    Label:
+                        size_hint: root.properties_size
+                        text: root.lbl_text["painting_cost"][2]
+                        color: root.font_color
+                        font_size: root.properties_font_size
+
+            #Площадь печати
+                BoxLayout:
+                    padding: root.workspace_padding
+                    size_hint: root.boxlayout_size_hint
+                    Label:
+                        text: root.lbl_text["workpiece_area"][0]
+                        font_size: root.font_size
+                        color: root.font_color
+                    Label:
+                        id: text_input_workpiece_area
+                        text: root.lbl_text["workpiece_area"][1]
+                        size_hint: root.text_input_size
+                        font_size: root.font_size
+                        color: root.font_color
+                    Label:
+                        size_hint: root.properties_size
+                        text: root.lbl_text["workpiece_area"][2]
+                        color: root.font_color
+                        font_size: root.properties_font_size
+
+            ##Стоимость печати в евро
+            #    BoxLayout:
+            #        padding: root.workspace_padding
+            #        size_hint: root.boxlayout_size_hint
+            #        Label:
+            #            text: root.lbl_text["paint_cost_eur"][0]
+            #            color: root.font_color
+            #            font_size: root.font_size
+            #        Label:
+            #            id: text_input_paint_cost_eur
+            #            text: root.lbl_text["paint_cost_eur"][1]
+            #            size_hint: root.text_input_size
+            #            font_size: root.font_size
+            #            color: root.font_color
+            #            halign: "center"
+            #        Label:
+            #            size_hint: root.properties_size
+            #            text: root.lbl_text["paint_cost_eur"][2]
+            #            color: root.font_color
+            #            font_size: root.properties_font_size
+
+            #Стоимость печати в грн
+                BoxLayout:
+                    padding: root.workspace_padding
+                    size_hint: root.boxlayout_size_hint
+                    Label:
+                        text: root.lbl_text["paint_cost_uah"][0]
+                        color: "black"
+                        font_size: root.font_size
+                    Label:
+                        id: text_input_paint_cost_uah
+                        text: root.lbl_text["paint_cost_uah"][1]
+                        size_hint: root.text_input_size
+                        font_size: root.font_size
+                        color: root.font_color
+                        halign: "center"
+                    Label:
+                        size_hint: root.properties_size
+                        text: root.lbl_text["paint_cost_uah"][2]
+                        color: root.font_color
+                        font_size: root.properties_font_size
+
+            #Лейбл оконч стоим
+                BoxLayout:
+                    padding: root.workspace_padding
+                    size_hint: root.boxlayout_size_hint
+                    Label:
+                        text: "\n [b][i][u]Окончательная стоимость[/u][/i][/b] \n"
+                        color: root.font_color
+                        font_size: root.font_size
+                        markup:True
+
+            #Количество
+                BoxLayout:
+                    padding: root.workspace_padding
+                    size_hint: root.boxlayout_size_hint
+                    Label:
+                        text: root.lbl_text["order_amount"][0]
+                        color: "black"
+                        font_size: root.font_size
+                    MDTextFieldRound:
+                        id: text_input_order_amount
+                        text: root.lbl_text["order_amount"][1]
+                        normal_color: root.entry_box_color
+                        size_hint: root.text_input_size
+                        font_size: root.font_size
+                        halign: "center"
+                        multiline: False
+                        on_touch_down: if self.collide_point(*args[1].pos): self.text = ""
+                        on_text_validate: root.refresh()
+                        on_focus: root.check_focus()
+                    Label:
+                        size_hint: root.properties_size
+                        text: root.lbl_text["order_amount"][2]
+                        color: root.font_color
+                        font_size: root.properties_font_size
+            #Наценка
+                BoxLayout:
+                    padding: root.workspace_padding
+                    size_hint: root.boxlayout_size_hint
+                    Label:
+                        text: root.lbl_text["margin"][0]
+                        color: "black"
+                        font_size: root.font_size
+                    MDTextFieldRound:
+                        id: text_input_margin
+                        text: root.lbl_text["margin"][1]
+                        normal_color: root.entry_box_color
+                        size_hint: root.text_input_size
+                        font_size: root.font_size
+                        halign: "center"
+                        multiline: False
+                        on_touch_down: if self.collide_point(*args[1].pos): self.text = ""
+                        on_text_validate: root.refresh()
+                        on_focus: root.check_focus()
+                    Label:
+                        size_hint: root.properties_size
+                        text: root.lbl_text["margin"][2]
+                        color: root.font_color
+                        font_size: root.properties_font_size
+
+            #Себестоимость пакета
+                BoxLayout:
+                    padding: root.workspace_padding
+                    size_hint: root.boxlayout_size_hint
+                    Label:
+                        text: root.lbl_text["self_cost_package"][0]
+                        color: "black"
+                        font_size: root.font_size
+                    Label:
+                        id: text_input_self_cost_package
+                        text: root.lbl_text["self_cost_package"][1]
+                        size_hint: root.text_input_size
+                        font_size: root.font_size
+                        color: root.font_color
+                        halign: "center"
+                    Label:
+                        size_hint: root.properties_size
+                        text: root.lbl_text["self_cost_package"][2]
+                        color: root.font_color
+                        font_size: root.properties_font_size
+
+            #Сумма наценки
+                BoxLayout:
+                    padding: root.workspace_padding
+                    size_hint: root.boxlayout_size_hint
+                    Label:
+                        text: root.lbl_text["margin_sum"][0]
+                        color: "black"
+                        font_size: root.font_size
+                    Label:
+                        id: text_input_margin_sum
+                        text: root.lbl_text["margin_sum"][1]
+                        size_hint: root.text_input_size
+                        font_size: root.font_size
+                        color: root.font_color
+                        halign: "center"
+                    Label:
+                        size_hint: root.properties_size
+                        text: root.lbl_text["margin_sum"][2]
+                        color: root.font_color
+                        font_size: root.properties_font_size
+
+
+            #Цена для клиента
+                BoxLayout:
+                    padding: root.workspace_padding
+                    size_hint: root.boxlayout_size_hint
+                    Label:
+                        text: root.lbl_text["cost_for_customer"][0]
+                        color: "black"
+                        font_size: root.font_size
+                    Label:
+                        id: text_input_cost_for_customer
+                        text: root.lbl_text["cost_for_customer"][1]
+                        size_hint: root.text_input_size
+                        font_size: root.font_size
+                        color: root.font_color
+                        halign: "center"
+                    Label:
+                        size_hint: root.properties_size
+                        text: root.lbl_text["cost_for_customer"][2]
+                        color: root.font_color
+                        font_size: root.properties_font_size
+            #Сумма заказа
+                BoxLayout:
+                    padding: root.workspace_padding
+                    size_hint: root.boxlayout_size_hint
+                    Label:
+                        text: root.lbl_text["order_price"][0]
+                        color: "black"
+                        font_size: root.font_size
+                    Label:
+                        id: text_input_order_price
+                        text: root.lbl_text["order_price"][1]
+                        size_hint: root.text_input_size
+                        font_size: root.font_size
+                        color: root.font_color
+                        halign: "center"
+                    Label:
+                        size_hint: root.properties_size
+                        text: root.lbl_text["order_price"][2]
+                        color: root.font_color
+                        font_size: root.properties_font_size
+
+
+    #Нижняя панель
+        BoxLayout:
+            size_hint: 1, 0.1
+            padding: 10, 25
+            BoxLayout:
+                size_hint: 0.8, 1
+            BoxLayout:
+                size_hint: 0.2, 0.1
+                MDFillRoundFlatButton:
+                    text: "Добавить в ЗАКАЗЫ"
+                    text_color: root.md_button_color
+                    font_size: root.md_button_font_size
+                    background_normal: "btn3.png"
+                    md_bg_color: root.bottom_button_color
+                    on_press: app.show_dialog_save_to_db()
+
+
+
+#Второй экран
+
+<SecondScreen>:
+
+    Image:
+        source: "background.png"
+        allow_stretch: True
+        keep_ratio: False
+
+    BoxLayout:
+        orientation: "vertical"
+        MainMenu:
+
+        BoxLayout:
+            size_hint: 1, 1.1
+            padding: 100, 0, 0, 20
+            ScrollView:
+
+                MDGridLayout:
+                    id: panel_container
+                    height: self.minimum_height
+                    size_hint_y: None
+                    #text_size: self.width, None
+                    cols: 1
+
+   ##Нижняя панель
+        #BoxLayout:
+        #    size_hint: 1, 0.1
+        #    padding: 10
+
+
+
+#Третий экран
+<ThirdScreen>:
+    Image:
+        source: "background.png"
+        allow_stretch: True
+        keep_ratio: False
+
+    BoxLayout:
+        orientation: "vertical"
+        MainMenu:
+        MDGridLayout:
+            id: package_data_container
+            padding: 100, 0, 100, 40
+            #height: self.minimum_height
+            size_hint: 1, 1.1
+            #text_size: self.width, None
+            cols: 1
+
+
+<FourthScreen>:
+    Image:
+        source: "background.png"
+        allow_stretch: True
+        keep_ratio: False
+
+    BoxLayout:
+        orientation: "vertical"
+        MainMenu:
+
+        MDGridLayout:
+            id: paper_data_container
+            padding: 100, 0, 100, 40
+            height: self.minimum_height
+            size_hint: 1, 1.1
+            #text_size: self.width, None
+            cols: 1
+
+
+
+
